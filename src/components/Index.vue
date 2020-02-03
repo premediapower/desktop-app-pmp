@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="wrapper"
-    style="padding: 10px; padding-top: 23px; -webkit-app-region: drag;"
-  >
+  <div id="wrapper" style="padding: 10px; padding-top: 23px; -webkit-app-region: drag;">
     <main>
       <div class="ui segment">
         <center>
@@ -14,14 +11,25 @@
           />
         </center>
 
-        <form class="ui form">
-          <div class="ui field" v-bind:class="{ error: !user_id }">
-            <label>User id</label>
-            <input v-model="user_id" placeholder="user id" />
+        <form class="ui form" v-on:submit.prevent>
+          <div class="ui fluid action input">
+            <input type="text" v-model="user_id" placeholder="User id..." />
+            <button class="ui red basic icon button" v-on:click="clearUser">
+              <i class="icon times"></i>
+            </button>
           </div>
-          <a class="ui button red icon labeled"
-            ><i class="icon times"></i> Clear</a
-          >
+
+          <div class="ui fluid card" v-if="!$_.isEmpty(user)">
+            <div class="content">
+              <div class="header">{{ user.name }}</div>
+              <div class="meta">{{ departmentName(user.department_id) }}</div>
+              <!-- <div class="description"></div> -->
+            </div>
+          </div>
+
+          <div class="field success">
+            <input type="text" v-model="project_code" placeholder="Type project code" />
+          </div>
         </form>
 
         <disk-status></disk-status>
@@ -38,56 +46,121 @@
 </template>
 
 <script>
-// import taskItem from "./TaskItem";
-import diskStatus from "./DiskStatus";
+  // import taskItem from "./TaskItem";
+  import diskStatus from "./DiskStatus";
+  const { exec } = require("child_process");
 
-export default {
-  name: "pmp",
-  components: {
-    // taskItem,
-    diskStatus
-  },
-  methods: {
-    getUserInfo: function(user_id) {
+  export default {
+    name: "pmp",
+    components: {
+      // taskItem,
+      diskStatus
+    },
+    data: function() {
+      return {
+        user_id: 0,
+        project_code: null,
+        project: {},
+        user: {}
+      };
+    },
+    mounted() {
       const vm = this;
 
-      // vm.$http
-      //   .get("https://pmp.test/desktop/user/" + user_id)
-      //   .then(function(response) {
-      //     vm.user = response.data;
-      //   });
-    }
-  },
-  data: function() {
-    return {
-      user_id: 0,
-      user: {
-        name: "",
-        email: "",
-        avatar: "",
-        project_tasks: []
+      if (localStorage.user_id) {
+        vm.user_id = localStorage.user_id;
       }
-    };
-  },
-  mounted() {
-    const vm = this;
+    },
+    methods: {
+      getUserInfo: function(user_id) {
+        const vm = this;
 
-    if (localStorage.user_id) {
-      vm.user_id = localStorage.user_id;
-    }
-  },
-  watch: {
-    user_id(newId) {
-      const vm = this;
+        axios
+          .get("https://dev.premediapower.com/api/desktop/user/" + vm.user_id)
+          .then(function(response) {
+            vm.user = response.data;
+          });
+      },
+      getProject: function(project_id) {
+        const vm = this;
 
-      localStorage.user_id = newId;
-      vm.user_id = newId;
-      vm.getUserInfo(vm.user_id);
+        axios
+          .get(
+            "https://dev.premediapower.com/api/desktop/project/" + vm.project_code
+          )
+          .then(function(response) {
+            vm.project = response.data;
+
+            vm.openFinderPathIfExists(response.data.path);
+
+            setTimeout(() => {
+              vm.project = {};
+            }, 100);
+          });
+      },
+      openFinderPath: function(path) {
+        exec('open "' + path + '"');
+      },
+      openFinderPathIfExists: function(path) {
+        const vm = this;
+
+        console.log(["openFinderPathIfExists", path]);
+
+        var exists = exec('[ -d "' + path + '" ] && echo true');
+        console.log(["openFinderPathIfExists exists:", exists]);
+
+        exists.stdout.on("data", function(data) {
+          if (data == true) {
+            vm.openFinderPath(path);
+          } else {
+            exec("mkdir " + path);
+            vm.openFinderPath(path);
+          }
+        });
+      },
+      clearUser: function() {
+        this.user_id = 0;
+        this.user = {};
+      },
+      departmentName: function(department_id) {
+        var departmentName = null;
+
+        if (department_id == 1) {
+          departmentName = "Studio";
+        }
+
+        if (department_id == 2) {
+          departmentName = "Account";
+        }
+
+        if (department_id == 2) {
+          departmentName = "Creatie";
+        }
+
+        return departmentName;
+      },
+      processProjectInput: function() {}
+    },
+    watch: {
+      user_id(newId) {
+        const vm = this;
+        if (newId) {
+          localStorage.user_id = newId;
+          vm.user_id = newId;
+          vm.getUserInfo(vm.user_id);
+        }
+      },
+      project_code(projectCode) {
+        const vm = this;
+
+        if (projectCode.length > 6) {
+          vm.getProject(projectCode);
+        }
+      }
     }
-  }
-};
+  };
 </script>
 
 <style>
-@import url("https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css");
+  @import url("https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css");
 </style>

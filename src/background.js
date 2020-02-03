@@ -32,17 +32,22 @@ protocol.registerSchemesAsPrivileged([{
 function createWindow() {
 	// Create the browser window.
 	win = new BrowserWindow({
-		width: 800,
+		width: 600,
 		height: 600,
-		useContentSize: true,
-		center: true,
-		frame: false,
-		titleBarStyle: 'hidden',
-		transparent: true,
+		// useContentSize: true,
+		// center: true,
+		// frame: false,
+		// titleBarStyle: 'hidden',
+		// transparent: true,
 		webPreferences: {
 			nodeIntegration: true
 		}
 	})
+
+	win.maximizable = false;
+	win.fullScreenable = false;
+
+
 
 	if (process.env.WEBPACK_DEV_SERVER_URL) {
 		// Load the url of the dev server if in development mode
