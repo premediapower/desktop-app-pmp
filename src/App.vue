@@ -35,7 +35,8 @@
     </header>
     <main>
       <div class="ui segment">
-        <template v-if="app.api.token.length">
+        <template v-if="apiAuthenticated">
+          <pre v-if="app.debug" v-html="{app: app, user: user}"></pre>
           <user></user>
           <project-search></project-search>
           <disk-status></disk-status>
@@ -79,6 +80,8 @@ export default {
   data: function() {
     return {
       app: {
+        localStorage: window.localStorage,
+        debug: process.env.NODE_ENV !== 'production',
         version: 0,
         api: {
           token: ""
@@ -90,6 +93,11 @@ export default {
         password: ""
       }
     };
+  },
+  computed: {
+    apiAuthenticated: function() {
+      return this.app.api.token.length;
+    }
   },
   mounted() {
     const vm = this;
@@ -165,7 +173,7 @@ export default {
       const vm = this;
 
       vm.getCurrentUser();
-    }
+    },
   }
 };
 </script>

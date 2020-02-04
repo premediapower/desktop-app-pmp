@@ -1,20 +1,18 @@
 <template>
-  <div>
-    <div class="ui fluid card">
-      <div class="content">
-        <img
-          class="right floated mini ui image"
-          src="/images/avatar/large/elliot.jpg"
-        />
-        <div class="header">
-          {{ $parent.user.name }}
-        </div>
-        <div class="meta">
-          {{ departmentName($parent.user.department_id) }}
-        </div>
-        <div class="description">
-          Desc...
-        </div>
+  <div class="ui fluid card">
+    <div class="content">
+      <img
+        class="right floated mini ui image"
+        src="/images/avatar/large/elliot.jpg"
+      />
+      <div class="header">
+        {{ $parent.user.name }}
+      </div>
+      <div class="meta">
+        {{ departmentName }}
+      </div>
+      <div class="description">
+        Desc...
       </div>
     </div>
   </div>
@@ -23,20 +21,20 @@
 <script>
 export default {
   name: "user-info",
-  methods: {
-    departmentName: function(department_id) {
-      var departmentName = null;
+  computed: {
+    departmentName: function() {
+      var departmentName = "";
 
-      if (department_id == 1) {
-        departmentName = "Studio";
-      }
-
-      if (department_id == 2) {
-        departmentName = "Account";
-      }
-
-      if (department_id == 2) {
-        departmentName = "Creatie";
+      switch(this.$parent.user.department_id) {
+        case 1:
+          departmentName = "Studio";
+          break;
+        case 2:
+          departmentName = "Account";
+          break;
+        case 3:
+          departmentName = "Creatie";
+          break;
       }
 
       return departmentName;
@@ -44,7 +42,3 @@ export default {
   }
 };
 </script>
-
-<style>
-@import url("https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css");
-</style>
