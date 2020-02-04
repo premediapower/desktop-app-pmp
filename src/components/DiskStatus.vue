@@ -79,10 +79,13 @@ export default {
   methods: {
     openDisk: function(disk) {
       const vm = this;
+      
+      console.log({'open disk': disk});
+
       if (disk.mounted) {
         vm.$parent.openFinderPathIfExists("/Volumes/" + disk.name);
       } else {
-        window.href = disk.url;
+        window.location = disk.url;
       }
     },
     checkDisk: function(disk) {
@@ -95,6 +98,8 @@ export default {
           disk.mounted = true;
         }
       });
+
+      return disk.mounted;
     },
     checkIfDisksMounted: function() {
       const vm = this;
@@ -107,12 +112,9 @@ export default {
   mounted() {
     const vm = this;
 
-    console.log("DiskStatus mounted");
-
     vm.checkIfDisksMounted();
 
-    window.setInterval(() => {
-      console.log("Check disks interval");
+    const diskCheckInterval = setInterval(() => {
       vm.checkIfDisksMounted();
     }, 5000);
 

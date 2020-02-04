@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper" style=" user-select: none;  -webkit-app-region: drag;">
+  <div id="wrapper">
     <main>
       <div class="ui segment">
         <template v-if="app.api.token.length">

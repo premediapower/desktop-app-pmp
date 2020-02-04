@@ -1,5 +1,8 @@
+  
+<style src="../semantic/dist/semantic.min.css"></style>
+
 <template>
-  <div id="app">
+  <div id="app" style="user-select: none;  -webkit-app-region: drag;">
     <center
       style="position: fixed; width: 100%; height: 140px;z-index: 9999; background-color: #fff; border-bottom: 1px solid #ccc;"
     >
@@ -28,5 +31,3 @@ export default {
   }
 };
 </script>
-
-<style src="../semantic/dist/semantic.min.css"></style>
