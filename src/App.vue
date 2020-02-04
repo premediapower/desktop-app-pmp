@@ -1,33 +1,171 @@
-  
 <style src="../semantic/dist/semantic.min.css"></style>
 
+<style lang="scss">
+  #app {
+    user-select: none;  
+    -webkit-app-region: drag;
 
+      main {
+        padding: 10px; 
+        position:relative; 
+        top: 150px;
+      }
+
+      header {
+        position: fixed; 
+        width: 100%; 
+        height: 140px;
+        z-index: 9999; 
+        background-color: #fff; 
+        border-bottom: 1px solid #ccc;
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+      }
+  }
+</style>>
 
 <template>
-  <div id="app" style="user-select: none;  -webkit-app-region: drag;">
-    <center
-      style="position: fixed; width: 100%; height: 140px;z-index: 9999; background-color: #fff; border-bottom: 1px solid #ccc;"
-    >
+  <div id="app">
+    <header>
       <img src="../public/logo.png" 
         width="400"
         height="134"
-        alt="Premediapower"
-        style="display: flex; align-items: center; justify-content: center;">
-    </center>
+        alt="Premediapower" />
+    </header>
+    <main>
+      <div class="ui segment">
+        <template v-if="app.api.token.length">
+          <user></user>
+          <project-search></project-search>
+          <disk-status></disk-status>
+        </template>
 
-    <div style="padding: 10px; position:relative; top: 150px;">
-      <index />
-    </div>
+        <template v-else>
+          <login></login>
+        </template>
+      </div>
+      <footer>
+        <span class="ui basic mini label">V:{{ app.version }}</span>
+
+        <a
+          style="float: right;"
+          class="ui basic mini icon button"
+          v-on:click="clearStorage"
+          ><i class="sign out alternate icon"></i
+        ></a>
+      </footer>
+    </main>
   </div>
 </template>
 
 <script>
-import Index from "./components/Index.vue";
+import diskStatus from "./components/DiskStatus";
+import Login from "./components/Login";
+import User from "./components/User";
+import ProjectSearch from "./components/ProjectSearch";
+const { exec } = require("child_process");
+const appVersion = require("../package.json").version;
 
 export default {
-  name: "app",
+  name: "pmp-desktop-app",
   components: {
-    Index
+    // taskItem,
+    diskStatus,
+    Login,
+    User,
+    ProjectSearch
+  },
+  data: function() {
+    return {
+      app: {
+        version: 0,
+        api: {
+          token: ""
+        }
+      },
+      user: {
+        id: null,
+        email: "",
+        password: ""
+      }
+    };
+  },
+  mounted() {
+    const vm = this;
+
+    vm.app.version = appVersion;
+
+    if (window.localStorage.getItem("apiToken")) {
+      this.setApiKey(window.localStorage.getItem("apiToken"));
+    }
+
+    vm.loading = false;
+  },
+  methods: {
+    setApiKey: function(apiKey) {
+      const vm = this;
+
+      window.localStorage.setItem("apiToken", apiKey);
+
+      vm.app.api.token = apiKey;
+    },
+    clearStorage() {
+      const vm = this;
+
+      window.localStorage.clear();
+      vm.app.api.token = "";
+      location.reload();
+    },
+    getCurrentUser: function() {
+      const vm = this;
+
+      axios
+        .get("/spa/desktop/user")
+        .then(function(response) {
+          vm.user = response.data;
+        })
+        .catch(function(error) {
+          vm.ClearUser();
+        });
+    },
+    openProjectInBrowser: function(project_id) {
+      exec(
+        'open "https://premediapower.com/portal/projects/' + project_id + '"'
+      );
+    },
+    openPremediapower: function(project_id) {
+      exec(
+        'open "https://premediapower.com"'
+      );
+    },
+    openFinderPath: function(path) {
+      exec('open "' + path + '"');
+    },
+    openFinderPathIfExists: function(path) {
+      const vm = this;
+
+      console.log(["openFinderPathIfExists", path]);
+
+      var exists = exec('[ -d "' + path + '" ] && echo true');
+      console.log(["openFinderPathIfExists exists:", exists]);
+
+      exists.stdout.on("data", function(data) {
+        if (data == true) {
+          vm.openFinderPath(path);
+        } else {
+          // exec("mkdir " + path);
+          vm.openFinderPath(path);
+        }
+      });
+    }
+  },
+  watch: {
+    "app.api.token"(newToken) {
+      const vm = this;
+
+      vm.getCurrentUser();
+    }
   }
 };
 </script>

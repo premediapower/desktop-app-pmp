@@ -12,7 +12,7 @@
     <div class="field">
       <div class="ui toggle checkbox" ref="open_in_finder_toggle">
         <input type="checkbox" name="open_in_finder" v-model="open_in_finder" />
-        <label>Open in finder</label>
+        <label>Open in Finder</label>
       </div>
     </div>
 
@@ -23,7 +23,7 @@
           name="open_in_premediapower"
           v-model="open_in_premediapower"
         />
-        <label>Open in premediapower</label>
+        <label>Open in <a href="https://premediapower.com" target="_blank">Premediapower</a></label>
       </div>
     </div>
   </form>
