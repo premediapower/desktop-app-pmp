@@ -1,34 +1,29 @@
 <template>
   <div>
-    <pre>{{ $parent.user }}</pre>
+    <div class="ui fluid card">
+      <div class="content">
+        <img
+          class="right floated mini ui image"
+          src="/images/avatar/large/elliot.jpg"
+        />
+        <div class="header">
+          {{ $parent.user.name }}
+        </div>
+        <div class="meta">
+          {{ departmentName($parent.user.department_id) }}
+        </div>
+        <div class="description">
+          Desc...
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "user-info",
-  mounted() {
-    const vm = this;
-
-    // if (localStorage.user_id) {
-    //   vm.user_id = localStorage.user_id;
-
-    //   axios
-    //     .post("https://dev.premediapower.com/spa/airlock/token", {
-    //       email: "robert.fridzema@zdsgn.com",
-    //       password: "frizemavos",
-    //       device_name: "electron-pmp-desktop"
-    //     })
-    //     .then(response => {
-    //       console.log(response);
-    //     });
-    // }
-  },
   methods: {
-    clearUser: function() {
-      this.user_id = 0;
-      this.user = {};
-    },
     departmentName: function(department_id) {
       var departmentName = null;
 

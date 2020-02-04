@@ -1,6 +1,9 @@
 {
   "name": "premediapower-desktop-app",
-  "version": "1.0.5",
+  "version": "1.1.2",
+  "description": "Premediapower desktop app",
+  "author": "Robert Fridzema",
+  "license": "UNLICENSED",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

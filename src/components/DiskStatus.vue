@@ -107,13 +107,16 @@ export default {
   mounted() {
     const vm = this;
 
+    console.log("DiskStatus mounted");
+
     vm.checkIfDisksMounted();
 
     window.setInterval(() => {
+      console.log("Check disks interval");
       vm.checkIfDisksMounted();
-    }, 3000);
+    }, 5000);
 
-    if (localStorage.user_id != 0) {
+    if (vm.$parent.user.id != null) {
       window.Echo = new Echo({
         broadcaster: "pusher",
         key: "8ef96f5fc90e28e9fe3b",
@@ -122,13 +125,14 @@ export default {
         disableStats: true
       });
 
-      window.Echo.channel("pmp_user_" + localStorage.user_id)
+      window.Echo.channel("pmp_user_" + vm.$parent.user.id)
         .listen(".projects.open_project_folder", project_folder_path => {
-          console.log("listening");
+          console.log("listening project folders");
           vm.$parent.openFinderPath(project_folder_path);
           vm.paths.push(project_folder_path);
         })
         .listen(".projects.open_deliverable_folder", deliverable_path => {
+          console.log("listening deliverable folders");
           vm.$parent.openFinderPathIfExists(deliverable_path);
           vm.paths.push(deliverable_path);
         });

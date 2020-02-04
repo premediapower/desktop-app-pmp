@@ -1,4 +1,5 @@
 'use strict'
+import path from 'path'
 
 import {
 	app,
@@ -10,9 +11,7 @@ import {
 	installVueDevtools
 } from 'vue-cli-plugin-electron-builder/lib'
 
-import {
-	autoUpdater
-} from "electron-updater"
+
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -32,13 +31,18 @@ protocol.registerSchemesAsPrivileged([{
 function createWindow() {
 	// Create the browser window.
 	win = new BrowserWindow({
+		title: 'Premediapower desktop app',
 		width: 600,
 		height: 600,
-		// useContentSize: true,
-		// center: true,
-		// frame: false,
+		useContentSize: true,
+		center: true,
+		frame: false,
+		alwaysOnTop: true,
 		// titleBarStyle: 'hidden',
-		// transparent: true,
+		transparent: true,
+		darkTheme: true,
+		autoHideMenuBar: true,
+		icon: path.join(__static, 'icon.png'),
 		webPreferences: {
 			nodeIntegration: true
 		}
