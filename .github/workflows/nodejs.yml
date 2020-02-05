@@ -37,7 +37,5 @@ jobs:
           ${{ runner.os }}-yarn-
     - name: yarn install
       run: yarn install
-    - name: yarn test
-      run: ${{ matrix.commandPrefix }} yarn test --runInBand --coverage
-      env:
-        CI: true
+    - name: yarn postinstall
+      run: yarn postinstall
