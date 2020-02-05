@@ -37,6 +37,7 @@ function createWindow() {
 		useContentSize: true,
 		center: true,
 		frame: false,
+		webgl: false,
 		// alwaysOnTop: true,
 		// titleBarStyle: 'hidden',
 		transparent: true,

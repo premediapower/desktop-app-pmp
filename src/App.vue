@@ -1,42 +1,44 @@
 <style src="../semantic/dist/semantic.min.css"></style>
 
 <style lang="scss">
-  #app {
-    user-select: none;  
-    -webkit-app-region: drag;
+#app {
+  user-select: none;
+  -webkit-app-region: drag;
 
-      main {
-        padding: 10px; 
-        position:relative; 
-        top: 150px;
-      }
-
-      header {
-        position: fixed; 
-        width: 100%; 
-        height: 140px;
-        z-index: 9999; 
-        background-color: #fff; 
-        border-bottom: 1px solid #ccc;
-        display: flex; 
-        align-items: center; 
-        justify-content: center;
-      }
+  main {
+    padding: 10px;
+    position: relative;
+    top: 150px;
   }
-</style>>
+
+  header {
+    position: fixed;
+    width: 100%;
+    height: 140px;
+    z-index: 9999;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}</style
+>>
 
 <template>
   <div id="app">
     <header>
-      <img src="../public/logo.png" 
+      <img
+        src="../public/logo.png"
         width="400"
         height="134"
-        alt="Premediapower" />
+        alt="Premediapower"
+      />
     </header>
     <main>
       <div class="ui segment">
         <template v-if="apiAuthenticated">
-          <pre v-if="app.debug" v-html="{app: app, user: user}"></pre>
+          <pre v-if="app.debug" v-html="{ app: app, user: user }"></pre>
           <user></user>
           <project-search></project-search>
           <disk-status></disk-status>
@@ -81,7 +83,7 @@ export default {
     return {
       app: {
         localStorage: window.localStorage,
-        debug: process.env.NODE_ENV !== 'production',
+        debug: process.env.NODE_ENV !== "production",
         version: 0,
         api: {
           token: ""
@@ -143,9 +145,7 @@ export default {
       );
     },
     openPremediapower: function(project_id) {
-      exec(
-        'open "https://premediapower.com"'
-      );
+      exec('open "https://premediapower.com"');
     },
     openFinderPath: function(path) {
       exec('open "' + path + '"');
@@ -173,7 +173,7 @@ export default {
       const vm = this;
 
       vm.getCurrentUser();
-    },
+    }
   }
 };
 </script>

@@ -23,7 +23,12 @@
           name="open_in_premediapower"
           v-model="open_in_premediapower"
         />
-        <label>Open in <a href="https://premediapower.com" target="_blank">Premediapower</a></label>
+        <label
+          >Open in
+          <a href="https://premediapower.com" target="_blank"
+            >Premediapower</a
+          ></label
+        >
       </div>
     </div>
   </form>
@@ -87,7 +92,3 @@ export default {
   }
 };
 </script>
-
-<style>
-@import url("https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css");
-</style>

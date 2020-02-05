@@ -78,7 +78,3 @@ export default {
   }
 };
 </script>
-
-<style>
-@import url("https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css");
-</style>
