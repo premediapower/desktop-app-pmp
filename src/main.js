@@ -29,6 +29,16 @@ Vue.config.productionTip = false
 Vue.config.preserveWhitespace = false
 
 
+
+
+
+
+
+
+
+
+
+
 Object.defineProperty(Vue.prototype, '$_', {
 	value: _
 });

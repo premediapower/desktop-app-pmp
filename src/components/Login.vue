@@ -42,6 +42,8 @@
 </template>
 
 <script>
+// import Client from "../api";
+
 export default {
   name: "login-form",
   data: function() {
@@ -51,6 +53,8 @@ export default {
   },
   mounted() {
     console.log(["component mounted", this.$options.name, this.$data]);
+
+    // console.log(Client);
   },
   methods: {
     authenticateApi() {

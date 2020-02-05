@@ -49,14 +49,22 @@
         </template>
       </div>
       <footer>
-        <span class="ui basic mini label">V:{{ app.version }}</span>
+        <span
+          class="ui basic mini label"
+          v-on:click="app.show_releases = !app.show_releases"
+          v-bind:class="{ green: app.show_releases }"
+          >V:{{ app.version }}</span
+        >
 
         <a
+          v-if="apiAuthenticated"
           style="float: right;"
           class="ui basic mini icon button"
           v-on:click="clearStorage"
           ><i class="sign out alternate icon"></i
         ></a>
+
+        <releases v-if="app.show_releases"></releases>
       </footer>
     </main>
   </div>
@@ -68,17 +76,18 @@ const { shell } = require("electron");
 import Echo from "laravel-echo";
 window.Pusher = require("pusher-js");
 
-import diskStatus from "./components/DiskStatus";
+import Releases from "./components/Releases";
 import Login from "./components/Login";
+import diskStatus from "./components/DiskStatus";
 import User from "./components/User";
 import ProjectSearch from "./components/ProjectSearch";
 
 export default {
   name: "pmp-desktop-app",
   components: {
-    // taskItem,
-    diskStatus,
+    Releases,
     Login,
+    diskStatus,
     User,
     ProjectSearch
   },
@@ -89,6 +98,7 @@ export default {
         debug: process.env.NODE_ENV !== "production",
         version: 0,
         sound: true,
+        show_releases: false,
         api: {
           token: ""
         }
