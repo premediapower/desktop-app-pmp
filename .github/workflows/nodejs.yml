@@ -41,9 +41,3 @@ jobs:
       run: ${{ matrix.commandPrefix }} yarn test --runInBand --coverage
       env:
         CI: true
-    - name: Upload coverage to Codecov
-      if: runner.os == 'Linux'
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{secrets.CODECOV_TOKEN}}
-        file: ./coverage/clover.xml
