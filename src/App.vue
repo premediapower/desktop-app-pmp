@@ -22,8 +22,8 @@
     align-items: center;
     justify-content: center;
   }
-}</style
->>
+}
+</style>
 
 <template>
   <div id="app">
