@@ -36,42 +36,43 @@
       />
     </header>
     <main>
-      <div class="ui segment">
-        <template v-if="apiAuthenticated">
-          <pre v-if="app.debug" v-html="{ app: app, user: user }"></pre>
-          <user></user>
-          <project-search></project-search>
-          <disk-status></disk-status>
-        </template>
+      <template v-if="apiAuthenticated">
+        <div class="ui segment">
+            <pre v-if="app.debug" v-html="{ app: app, user: user }"></pre>
+            <user></user>
+            <project-search></project-search>
+            <disk-status></disk-status> 
+        </div>
+        <footer>
+          <span
+            class="ui basic mini label"
+            v-if="apiAuthenticated"
+            v-on:click="app.show_releases = !app.show_releases"
+            v-bind:class="{ green: app.show_releases }"
+            >V:{{ app.version }}</span
+          >
 
-        <template v-else>
-          <login></login>
-        </template>
-      </div>
-      <footer>
-        <span
-          class="ui basic mini label"
-          v-on:click="app.show_releases = !app.show_releases"
-          v-bind:class="{ green: app.show_releases }"
-          >V:{{ app.version }}</span
-        >
+          <a
+            v-if="apiAuthenticated"
+            style="float: right;"
+            class="ui basic mini icon button"
+            v-on:click="clearStorage"
+            ><i class="sign out alternate icon"></i
+          ></a>
 
-        <a
-          v-if="apiAuthenticated"
-          style="float: right;"
-          class="ui basic mini icon button"
-          v-on:click="clearStorage"
-          ><i class="sign out alternate icon"></i
-        ></a>
+          <releases v-if="app.show_releases"></releases>
+        </footer>
+      </template>
 
-        <releases v-if="app.show_releases"></releases>
-      </footer>
+
+      <template v-else>
+        <login></login>
+      </template>
     </main>
   </div>
 </template>
 
 <script>
-const appVersion = require("../package.json").version;
 const { shell } = require("electron");
 import Echo from "laravel-echo";
 window.Pusher = require("pusher-js");
@@ -96,7 +97,7 @@ export default {
       app: {
         localStorage: window.localStorage,
         debug: process.env.NODE_ENV !== "production",
-        version: 0,
+        version: this.$parent.version,
         sound: true,
         show_releases: false,
         api: {
@@ -112,7 +113,7 @@ export default {
   },
   computed: {
     apiAuthenticated: function() {
-      return this.app.api.token.length;
+      return !_.isEmpty(this.app.api.token);
     }
   },
   mounted() {
@@ -120,15 +121,9 @@ export default {
 
     console.log(["App mounted", this.$options.name, this.$data]);
 
-    vm.app.version = appVersion;
-
     if (window.localStorage.getItem("apiToken")) {
       this.setApiKey(window.localStorage.getItem("apiToken"));
     }
-
-    // this.openFinderPath("/Volumes/ZDSGN01");
-
-    vm.loading = false;
   },
   methods: {
     openExternalUrl(url) {

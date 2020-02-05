@@ -3,6 +3,7 @@ import App from './App.vue'
 
 window.axios = require('axios').default;
 window._ = require('lodash');
+const appVersion = require("../package.json").version;
 
 axios.defaults.baseURL = 'https://dev.premediapower.com';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
@@ -43,8 +44,14 @@ Object.defineProperty(Vue.prototype, '$_', {
 	value: _
 });
 
-new Vue({
+var app = {
+	version: appVersion
+}
+
+const vueInstance = new Vue({
+	data: app,
 	render: function (h) {
 		return h(App)
 	},
-}).$mount('#app')
+}).$mount('#app');
+
