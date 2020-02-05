@@ -39,10 +39,10 @@ function createWindow() {
 		frame: false,
 		webgl: false,
 		// alwaysOnTop: true,
-		// titleBarStyle: 'hidden',
+		titleBarStyle: 'hidden',
 		transparent: true,
 		darkTheme: true,
-		autoHideMenuBar: true,
+		autoHideMenuBar: false,
 		icon: path.join(__static, 'icon.png'),
 		webPreferences: {
 			nodeIntegration: true

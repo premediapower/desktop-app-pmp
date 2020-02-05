@@ -1,9 +1,10 @@
 module.exports = {
-  pluginOptions: {
-    electronBuilder: {
-      builderOptions: {
-        publish: ['github']
-      }
-    }
-  }
+	pluginOptions: {
+		electronBuilder: {
+			nodeIntegration: true,
+			builderOptions: {
+				publish: ['github']
+			}
+		}
+	}
 }

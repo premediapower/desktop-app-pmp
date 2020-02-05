@@ -22,13 +22,13 @@
     "laravel-echo": "^1.6.1",
     "node-sass": "^4.13.1",
     "pusher-js": "^5.0.3",
-    "sass-loader": "^8.0.2",
     "vue": "^2.6.10"
   },
   "devDependencies": {
-    "@vue/cli-service": "^3.12.0",
-    "electron": "^6.0.0",
+    "@vue/cli-service": "^4.1.2",
+    "electron": "^7.0.0",
     "electron-icon-builder": "^1.0.2",
+    "sass-loader": "^8.0.2",
     "vue-cli-plugin-electron-builder": "^1.4.4",
     "vue-template-compiler": "^2.6.10"
   }
