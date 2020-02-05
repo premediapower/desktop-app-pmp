@@ -1,35 +1,35 @@
 {
-  "name": "premediapower-desktop-app",
-  "version": "1.1.4",
-  "description": "Premediapower desktop app",
-  "author": "Robert Fridzema",
-  "license": "UNLICENSED",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "electron:build": "vue-cli-service electron:build",
-    "electron:serve": "vue-cli-service electron:serve",
-    "electron:generate-icons": "electron-icon-builder --input=./public/icon.png --output=build --flatten",
-    "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
-  },
-  "main": "background.js",
-  "dependencies": {
-    "axios": "^0.19.2",
-    "electron-updater": "^4.2.0",
-    "fomantic-ui": "^2.8.3",
-    "laravel-echo": "^1.6.1",
-    "node-sass": "^4.13.1",
-    "pusher-js": "^5.0.3",
-    "vue": "^2.6.10"
-  },
-  "devDependencies": {
-    "@vue/cli-service": "^4.1.2",
-    "electron": "^7.0.0",
-    "electron-icon-builder": "^1.0.2",
-    "sass-loader": "^8.0.2",
-    "vue-cli-plugin-electron-builder": "^1.4.4",
-    "vue-template-compiler": "^2.6.10"
-  }
+	"name": "premediapower-desktop-app",
+	"version": "1.1.5",
+	"description": "Premediapower desktop app",
+	"author": "Robert Fridzema",
+	"license": "UNLICENSED",
+	"private": true,
+	"scripts": {
+		"serve": "vue-cli-service serve",
+		"build": "vue-cli-service build",
+		"electron:build": "vue-cli-service electron:build",
+		"electron:serve": "vue-cli-service electron:serve",
+		"electron:generate-icons": "electron-icon-builder --input=./public/icon.png --output=build --flatten",
+		"postinstall": "electron-builder install-app-deps",
+		"postuninstall": "electron-builder install-app-deps"
+	},
+	"main": "background.js",
+	"dependencies": {
+		"axios": "^0.19.2",
+		"electron-updater": "^4.2.0",
+		"fomantic-ui": "^2.8.3",
+		"laravel-echo": "^1.6.1",
+		"node-sass": "^4.13.1",
+		"pusher-js": "^5.0.3",
+		"vue": "^2.6.10"
+	},
+	"devDependencies": {
+		"@vue/cli-service": "^4.1.2",
+		"electron": "^7.0.0",
+		"electron-icon-builder": "^1.0.2",
+		"sass-loader": "^8.0.2",
+		"vue-cli-plugin-electron-builder": "^1.4.4",
+		"vue-template-compiler": "^2.6.10"
+	}
 }

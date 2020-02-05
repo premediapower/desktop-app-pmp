@@ -63,12 +63,15 @@
 </template>
 
 <script>
+const appVersion = require("../package.json").version;
+const { shell } = require("electron");
+import Echo from "laravel-echo";
+window.Pusher = require("pusher-js");
+
 import diskStatus from "./components/DiskStatus";
 import Login from "./components/Login";
 import User from "./components/User";
 import ProjectSearch from "./components/ProjectSearch";
-const { exec } = require("child_process");
-const appVersion = require("../package.json").version;
 
 export default {
   name: "pmp-desktop-app",
@@ -85,6 +88,7 @@ export default {
         localStorage: window.localStorage,
         debug: process.env.NODE_ENV !== "production",
         version: 0,
+        sound: true,
         api: {
           token: ""
         }
@@ -104,15 +108,29 @@ export default {
   mounted() {
     const vm = this;
 
+    console.log(["App mounted", this.$options.name, this.$data]);
+
     vm.app.version = appVersion;
 
     if (window.localStorage.getItem("apiToken")) {
       this.setApiKey(window.localStorage.getItem("apiToken"));
     }
 
+    // this.openFinderPath("/Volumes/ZDSGN01");
+
     vm.loading = false;
   },
   methods: {
+    openExternalUrl(url) {
+      shell.openExternal(url);
+    },
+    openFinderPath: function(path) {
+      if (this.app.sound) {
+        shell.beep();
+      }
+      // showItemInFolder select item but does not navigate into folder
+      shell.openItem(path);
+    },
     setApiKey: function(apiKey) {
       const vm = this;
 
@@ -136,36 +154,8 @@ export default {
           vm.user = response.data;
         })
         .catch(function(error) {
-          vm.ClearUser();
+          vm.clearStorage();
         });
-    },
-    openProjectInBrowser: function(project_id) {
-      exec(
-        'open "https://premediapower.com/portal/projects/' + project_id + '"'
-      );
-    },
-    openPremediapower: function(project_id) {
-      exec('open "https://premediapower.com"');
-    },
-    openFinderPath: function(path) {
-      exec('open "' + path + '"');
-    },
-    openFinderPathIfExists: function(path) {
-      const vm = this;
-
-      console.log(["openFinderPathIfExists", path]);
-
-      var exists = exec('[ -d "' + path + '" ] && echo true');
-      console.log(["openFinderPathIfExists exists:", exists]);
-
-      exists.stdout.on("data", function(data) {
-        if (data == true) {
-          vm.openFinderPath(path);
-        } else {
-          // exec("mkdir " + path);
-          vm.openFinderPath(path);
-        }
-      });
     }
   },
   watch: {
@@ -173,6 +163,29 @@ export default {
       const vm = this;
 
       vm.getCurrentUser();
+    },
+    user(newUser) {
+      const vm = this;
+
+      if (newUser.id != null) {
+        window.Echo = new Echo({
+          broadcaster: "pusher",
+          key: "8ef96f5fc90e28e9fe3b",
+          cluster: "eu",
+          encrypted: true,
+          disableStats: true
+        });
+
+        window.Echo.channel("pmp_user_" + newUser.id)
+          .listen(".projects.open_project_folder", project_folder_path => {
+            console.log("listening project folders");
+            vm.openFinderPath(project_folder_path);
+          })
+          .listen(".projects.open_deliverable_folder", deliverable_path => {
+            console.log("listening deliverable folders");
+            vm.openFinderPath(deliverable_path);
+          });
+      }
     }
   }
 };

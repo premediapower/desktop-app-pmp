@@ -43,16 +43,14 @@
 
 <script>
 export default {
-  name: "user-info",
-  mounted() {
-    const vm = this;
-
-    // vm.error = "testtt";
-  },
+  name: "login-form",
   data: function() {
     return {
       error: ""
     };
+  },
+  mounted() {
+    console.log(["component mounted", this.$options.name, this.$data]);
   },
   methods: {
     authenticateApi() {

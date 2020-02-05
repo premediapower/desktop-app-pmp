@@ -23,32 +23,13 @@
         </a>
       </div>
     </div>
-
-    <div class="ui segment blue" v-if="paths.length">
-      <div class="ui ribbon label blue">
-        <i class="icon archive"></i> History
-      </div>
-      <br />
-      <div
-        v-for="(item, index) in paths"
-        v-bind:key="index"
-        style="margin-top: 10px;"
-      >
-        <div class="ui label fluid">
-          <a v-on:click="openFinderPath(item)">{{ item }}</a>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
-import Echo from "laravel-echo";
-window.Pusher = require("pusher-js");
 const { exec } = require("child_process");
 
 export default {
-  props: {},
   data: function() {
     return {
       disks: [
@@ -72,18 +53,15 @@ export default {
           mounted: false,
           url: "afp://146.185.139.142"
         }
-      ],
-      paths: []
+      ]
     };
   },
   methods: {
     openDisk: function(disk) {
       const vm = this;
-      
-      console.log({'open disk': disk});
 
       if (disk.mounted) {
-        vm.$parent.openFinderPathIfExists("/Volumes/" + disk.name);
+        vm.$parent.openFinderPath("/Volumes/" + disk.name);
       } else {
         window.location = disk.url;
       }
@@ -117,28 +95,6 @@ export default {
     const diskCheckInterval = setInterval(() => {
       vm.checkIfDisksMounted();
     }, 5000);
-
-    if (vm.$parent.user.id != null) {
-      window.Echo = new Echo({
-        broadcaster: "pusher",
-        key: "8ef96f5fc90e28e9fe3b",
-        cluster: "eu",
-        encrypted: true,
-        disableStats: true
-      });
-
-      window.Echo.channel("pmp_user_" + vm.$parent.user.id)
-        .listen(".projects.open_project_folder", project_folder_path => {
-          console.log("listening project folders");
-          vm.$parent.openFinderPath(project_folder_path);
-          vm.paths.push(project_folder_path);
-        })
-        .listen(".projects.open_deliverable_folder", deliverable_path => {
-          console.log("listening deliverable folders");
-          vm.$parent.openFinderPathIfExists(deliverable_path);
-          vm.paths.push(deliverable_path);
-        });
-    }
   }
 };
 </script>

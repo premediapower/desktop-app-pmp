@@ -1,6 +1,6 @@
 <template>
   <form class="ui form" v-on:submit.prevent>
-    <pre>{{ project }}</pre>
+    <pre v-if="$parent.app.debug">{{ project.files }}</pre>
     <div class="field" v-bind:class="statusClass">
       <input
         type="text"
@@ -25,7 +25,7 @@
         />
         <label
           >Open in
-          <a href="https://premediapower.com" target="_blank"
+          <a v-on:click="$parent.openExternalUrl('https://premediapower.com')"
             >Premediapower</a
           ></label
         >
@@ -46,6 +46,9 @@ export default {
       project: {}
     };
   },
+  mounted() {
+    console.log(["component mounted", this.$options.name, this.$data]);
+  },
   methods: {
     getProject: function(projectCodeQuery) {
       const vm = this;
@@ -58,11 +61,13 @@ export default {
           vm.project = response.data;
 
           if (vm.open_in_finder) {
-            vm.$parent.openFinderPathIfExists(response.data.js_afp_url);
+            vm.$parent.openFinderPath(response.data.js_afp_url);
           }
 
           if (vm.open_in_premediapower) {
-            vm.$parent.openProjectInBrowser(response.data.id);
+            vm.$parent.openExternalUrl(
+              "https://premediapower.com/portal/projects/" + response.data.id
+            );
           }
         })
         .catch(function(error) {

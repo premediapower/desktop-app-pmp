@@ -14,6 +14,15 @@
       <div class="description">
         Desc...
       </div>
+      <div class="extra content">
+        <span class="left floated">
+          <i
+            class="icon"
+            v-bind:class="volumeClass"
+            v-on:click="$parent.app.sound = !$parent.app.sound"
+          ></i>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -21,11 +30,22 @@
 <script>
 export default {
   name: "user-info",
+  mounted() {
+    const vm = this;
+    console.log(["component mounted", this.$options.name, this.$data]);
+  },
   computed: {
+    volumeClass: function() {
+      if (this.$parent.app.sound) {
+        return "volume up green";
+      } else {
+        return "volume mute red";
+      }
+    },
     departmentName: function() {
       var departmentName = "";
 
-      switch(this.$parent.user.department_id) {
+      switch (this.$parent.user.department_id) {
         case 1:
           departmentName = "Studio";
           break;
