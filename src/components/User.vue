@@ -11,19 +11,32 @@
       <div class="meta">
         {{ departmentName }}
       </div>
-      <div class="description">
+      <!-- <div class="description">
         Desc...
-      </div>
-      <div class="extra content">
-        <span class="left floated">
-          <a class="ui basic icon button">
-            <i
-              class="icon"
-              v-bind:class="volumeClass"
-              v-on:click="$parent.app.sound = !$parent.app.sound"
-            ></i>
+      </div> -->
+      <div class="extra content" style="margin-top: 10px;">
+        <div class="ui icon menu">
+          <a
+            class="item"
+            v-on:click="$parent.app.sound = !$parent.app.sound"
+            title="Volume"
+          >
+            <i class="icon" v-bind:class="volumeClass"></i>
           </a>
-        </span>
+
+          <div class="right menu">
+            <a
+              class="item"
+              v-bind:class="{ active: $parent.app.show_help }"
+              v-on:click="$parent.app.show_help = !$parent.app.show_help"
+            >
+              <i
+                class="icon help"
+                v-bind:class="{ blue: $parent.app.show_help }"
+              ></i>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

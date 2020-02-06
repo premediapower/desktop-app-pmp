@@ -17,3 +17,8 @@ Focus project search with `space`
 Mount/open folder with `alt+1 / alt+2 / alt+3`
 Lazy load windows before show
 Release info formatting
+Dependencies upgraded
+
+#1.1.9
+User card added menu
+Added help section

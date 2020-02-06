@@ -40,6 +40,7 @@
         <div class="ui segment">
           <pre v-if="app.debug" v-html="{ app: app, user: user }"></pre>
           <user></user>
+          <help v-if="app.show_help"></help>
           <project-search></project-search>
           <disk-status></disk-status>
         </div>
@@ -80,6 +81,7 @@ import Releases from "./components/Releases";
 import Login from "./components/Login";
 import diskStatus from "./components/DiskStatus";
 import User from "./components/User";
+import Help from "./components/Help";
 import ProjectSearch from "./components/ProjectSearch";
 
 export default {
@@ -89,6 +91,7 @@ export default {
     Login,
     diskStatus,
     User,
+    Help,
     ProjectSearch
   },
   data: function() {
@@ -99,6 +102,7 @@ export default {
         version: this.$parent.version,
         sound: true,
         show_releases: false,
+        show_help: false,
         api: {
           token: ""
         }
@@ -160,7 +164,8 @@ export default {
         .catch(function(error) {
           vm.clearStorage();
         });
-    }
+    },
+    toggleHelpStatus: function() {}
   },
   watch: {
     "app.api.token"(newToken) {
