@@ -6,7 +6,7 @@
         src="/images/avatar/large/elliot.jpg"
       /> -->
       <div class="header">
-        {{ $parent.user.name }}
+        {{ user.name }}
       </div>
       <div class="meta">
         {{ departmentName }}
@@ -43,11 +43,41 @@
 </template>
 
 <script>
+import Echo from "laravel-echo";
+window.Pusher = require("pusher-js");
+
 export default {
   name: "user-info",
+  props: {
+    user: {
+      type: Object,
+      required: true
+    }
+  },
   mounted() {
     const vm = this;
+
     console.log(["component mounted", this.$options.name, this.$data]);
+
+    window.Echo = new Echo({
+      broadcaster: "pusher",
+      key: "8ef96f5fc90e28e9fe3b",
+      cluster: "eu",
+      encrypted: true,
+      disableStats: true
+    });
+
+    window.Echo.channel("pmp_user_" + vm.user.id)
+      .listen(".projects.open_project_folder", project_folder_path => {
+        console.log("listening project folders");
+        vm.$parent.openFinderPath(project_folder_path);
+      })
+      .listen(".projects.open_deliverable_folder", deliverable_path => {
+        console.log("listening deliverable folders");
+        vm.$parent.openFinderPath(deliverable_path);
+      });
+
+    console.log(window.Echo);
   },
   computed: {
     volumeClass: function() {
@@ -60,7 +90,7 @@ export default {
     departmentName: function() {
       var departmentName = "";
 
-      switch (this.$parent.user.department_id) {
+      switch (this.user.department_id) {
         case 1:
           departmentName = "Studio";
           break;

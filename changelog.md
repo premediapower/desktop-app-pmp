@@ -30,3 +30,6 @@ Fixed bug preventing opening app
 
 #1.2.1
 Fixed bug preventing opening app
+
+#1.2.1
+Fixed bug listening websockets / user async fetching now
