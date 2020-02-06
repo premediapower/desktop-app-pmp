@@ -24,3 +24,9 @@ User card added menu
 Added help section
 Delete token from PMP database on user/app logout
 Internet connection status with warning/disabling functions
+
+#1.2.0
+Fixed bug preventing opening app
+
+#1.2.1
+Fixed bug preventing opening app

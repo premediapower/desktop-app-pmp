@@ -1,11 +1,16 @@
 'use strict'
 import path from 'path'
 
+
+const {
+	autoUpdater
+} = require("electron-updater");
+
 import {
 	app,
 	protocol,
 	BrowserWindow,
-	globalShortcut
+	globalShortcut,
 } from 'electron'
 import {
 	createProtocol,

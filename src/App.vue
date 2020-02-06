@@ -213,8 +213,6 @@ export default {
             console.log("listening deliverable folders");
             vm.openFinderPath(deliverable_path);
           });
-
-        console.log(window.Echo);
       }
     }
   }
