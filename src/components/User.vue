@@ -16,11 +16,13 @@
       </div>
       <div class="extra content">
         <span class="left floated">
-          <i
-            class="icon"
-            v-bind:class="volumeClass"
-            v-on:click="$parent.app.sound = !$parent.app.sound"
-          ></i>
+          <a class="ui basic icon button">
+            <i
+              class="icon"
+              v-bind:class="volumeClass"
+              v-on:click="$parent.app.sound = !$parent.app.sound"
+            ></i>
+          </a>
         </span>
       </div>
     </div>

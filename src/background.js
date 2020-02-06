@@ -32,6 +32,7 @@ protocol.registerSchemesAsPrivileged([{
 function createWindow() {
 	// Create the browser window.
 	win = new BrowserWindow({
+		show: false,
 		title: 'Premediapower desktop app',
 		width: 600,
 		height: 600,
@@ -75,6 +76,10 @@ function createWindow() {
 		win = null
 	})
 
+	win.on('ready-to-show', () => {
+		win.show()
+	})
+
 }
 
 // Quit when all windows are closed.
@@ -93,6 +98,15 @@ app.on('activate', () => {
 		createWindow()
 	}
 })
+
+
+app.on('ready', () => {
+	// Register a 'CommandOrControl+X' shortcut listener.
+	const ret = globalShortcut.register('CommandOrControl+P', () => {
+		win.show();
+	})
+})
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

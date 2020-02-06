@@ -8,6 +8,7 @@
       >
         <a
           class="ui fluid labeled icon button"
+          :title="'Press Alt+' + (index + 1)"
           v-bind:class="{
             basic: !item.mounted,
             red: !item.mounted,
@@ -56,6 +57,34 @@ export default {
       ]
     };
   },
+  mounted() {
+    const vm = this;
+
+    window.addEventListener(
+      "keyup",
+      function(event) {
+        if (event.altKey && event.which == 49) {
+          console.log("Open disk 1");
+          vm.openDisk(vm.disks[0]);
+        }
+        if (event.altKey && event.which == 50) {
+          console.log("Open disk 2");
+          vm.openDisk(vm.disks[1]);
+        }
+        if (event.altKey && event.which == 51) {
+          console.log("Open disk 3");
+          vm.openDisk(vm.disks[2]);
+        }
+      },
+      true
+    );
+
+    vm.checkIfDisksMounted();
+
+    const diskCheckInterval = setInterval(() => {
+      vm.checkIfDisksMounted();
+    }, 5000);
+  },
   methods: {
     openDisk: function(disk) {
       const vm = this;
@@ -86,15 +115,6 @@ export default {
         return (disk.mounted = vm.checkDisk(disk));
       });
     }
-  },
-  mounted() {
-    const vm = this;
-
-    vm.checkIfDisksMounted();
-
-    const diskCheckInterval = setInterval(() => {
-      vm.checkIfDisksMounted();
-    }, 5000);
   }
 };
 </script>

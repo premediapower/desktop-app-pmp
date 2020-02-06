@@ -5,6 +5,7 @@
       <input
         type="text"
         v-model="project_code_query"
+        ref="project_search"
         placeholder="Type project code"
       />
     </div>
@@ -47,9 +48,28 @@ export default {
     };
   },
   mounted() {
+    const vm = this;
     console.log(["component mounted", this.$options.name, this.$data]);
+
+    window.addEventListener(
+      "keyup",
+      function(event) {
+        if (event.which == 32) {
+          vm.focusProjectInput();
+        }
+      },
+      true
+    );
   },
   methods: {
+    focusProjectInput() {
+      const vm = this;
+
+      vm.project_code_query = "";
+      setTimeout(() => {
+        vm.$refs.project_search.focus();
+      }, 100);
+    },
     getProject: function(projectCodeQuery) {
       const vm = this;
 
@@ -79,7 +99,7 @@ export default {
     project_code_query(projectCodeQuery) {
       const vm = this;
 
-      if (projectCodeQuery.length > 6) {
+      if (projectCodeQuery.length > 6 && projectCodeQuery.length < 10) {
         vm.getProject(projectCodeQuery);
       } else {
         vm.project = {};

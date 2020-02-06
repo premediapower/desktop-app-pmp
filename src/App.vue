@@ -38,10 +38,10 @@
     <main>
       <template v-if="apiAuthenticated">
         <div class="ui segment">
-            <pre v-if="app.debug" v-html="{ app: app, user: user }"></pre>
-            <user></user>
-            <project-search></project-search>
-            <disk-status></disk-status> 
+          <pre v-if="app.debug" v-html="{ app: app, user: user }"></pre>
+          <user></user>
+          <project-search></project-search>
+          <disk-status></disk-status>
         </div>
         <footer>
           <span
@@ -63,7 +63,6 @@
           <releases v-if="app.show_releases"></releases>
         </footer>
       </template>
-
 
       <template v-else>
         <login></login>

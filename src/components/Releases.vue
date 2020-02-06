@@ -10,7 +10,7 @@
         <h3 class="ui dividing header">
           {{ release.tag_name }}
         </h3>
-        <p v-html="release.body"></p>
+        <p v-html="release.body.split('\n').join('<br />')"></p>
         <small>{{ release.published_at }}</small>
       </article>
     </template>
@@ -22,6 +22,7 @@ export default {
   name: "user-info",
   data: function() {
     return {
+      repository: "premediapower/desktop-app-pmp",
       githubApi: null,
       releases: []
     };
@@ -37,10 +38,23 @@ export default {
     });
 
     this.getReleases();
-
-    //
   },
   methods: {
+    // formatMarkdown(text) {
+    //   const vm = this;
+
+    //   var formattedText = "";
+
+    //   vm.githubApi
+    //     .post("/markdown/raw", {
+    //       text: text,
+    //       mode: "gfm",
+    //       context: vm.repository
+    //     })
+    //     .then(function(response) {
+    //       console.log(response.data);
+    //     });
+    // },
     activeReleaseClasses(release) {
       console.log(this.$parent.app.version);
       return release.tag_name == "v" + this.$parent.app.version
@@ -49,8 +63,9 @@ export default {
     },
     getReleases() {
       const vm = this;
+
       vm.githubApi
-        .get("/repos/premediapower/desktop-app-pmp/releases")
+        .get("/repos/" + vm.repository + "/releases")
         .then(function(response) {
           vm.releases = response.data;
           setTimeout(() => {

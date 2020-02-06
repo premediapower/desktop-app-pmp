@@ -30,16 +30,6 @@ Vue.config.productionTip = false
 Vue.config.preserveWhitespace = false
 
 
-
-
-
-
-
-
-
-
-
-
 Object.defineProperty(Vue.prototype, '$_', {
 	value: _
 });
@@ -54,4 +44,3 @@ const vueInstance = new Vue({
 		return h(App)
 	},
 }).$mount('#app');
-
