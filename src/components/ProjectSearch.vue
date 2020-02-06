@@ -1,6 +1,6 @@
 <template>
-  <form class="ui form" v-on:submit.prevent>
-    <pre v-if="$parent.app.debug">{{ project.files }}</pre>
+  <form class="ui segment form" v-on:submit.prevent>
+    <!-- <pre v-if="$parent.app.debug">{{ project.files }}</pre> -->
     <div class="field" v-bind:class="statusClass">
       <input
         type="text"

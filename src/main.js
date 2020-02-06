@@ -35,11 +35,24 @@ Object.defineProperty(Vue.prototype, '$_', {
 });
 
 var app = {
-	version: appVersion
+	version: appVersion,
+	debug: process.env.NODE_ENV !== "production",
+	connected_to_internet: true
 }
 
 const vueInstance = new Vue({
 	data: app,
+	mounted() {
+		const vm = this;
+		console.log('Vue Instance mounted');
+
+		window.addEventListener('online', function () {
+			vm.connected_to_internet = true;
+		}, true);
+		window.addEventListener('offline', function () {
+			vm.connected_to_internet = false;
+		}, true);
+	},
 	render: function (h) {
 		return h(App)
 	},

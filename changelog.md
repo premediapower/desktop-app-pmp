@@ -22,3 +22,5 @@ Dependencies upgraded
 #1.1.9
 User card added menu
 Added help section
+Delete token from PMP database on user/app logout
+Internet connection status with warning/disabling functions

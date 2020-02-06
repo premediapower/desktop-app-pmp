@@ -36,9 +36,25 @@
       />
     </header>
     <main>
+      <div class="ui error icon message" v-if="!$parent.connected_to_internet">
+        <i class="exclamation triangle icon"></i>
+        <div class="content">
+          <div class="header">
+            You are not connected to the internet!
+          </div>
+          <p>
+            The app will start working again if there is an internet connection
+            available.
+          </p>
+        </div>
+      </div>
+
       <template v-if="apiAuthenticated">
-        <div class="ui segment">
-          <pre v-if="app.debug" v-html="{ app: app, user: user }"></pre>
+        <div
+          class="ui segment"
+          v-bind:class="{ disabled: !$parent.connected_to_internet }"
+        >
+          <!-- <pre v-if="app.debug" v-html="{ app: app, user: user }"></pre> -->
           <user></user>
           <help v-if="app.show_help"></help>
           <project-search></project-search>
@@ -65,7 +81,7 @@
         </footer>
       </template>
 
-      <template v-else>
+      <template v-if="!apiAuthenticated">
         <login></login>
       </template>
     </main>
@@ -98,11 +114,12 @@ export default {
     return {
       app: {
         localStorage: window.localStorage,
-        debug: process.env.NODE_ENV !== "production",
+        debug: this.$parent.debug,
         version: this.$parent.version,
         sound: true,
         show_releases: false,
         show_help: false,
+        internet_connection: true,
         api: {
           token: ""
         }
@@ -149,9 +166,11 @@ export default {
     clearStorage() {
       const vm = this;
 
-      window.localStorage.clear();
-      vm.app.api.token = "";
-      location.reload();
+      axios.get("/spa/desktop/logout").then(function(response) {
+        vm.app.api.token = "";
+        window.localStorage.clear();
+        location.reload();
+      });
     },
     getCurrentUser: function() {
       const vm = this;
@@ -194,6 +213,8 @@ export default {
             console.log("listening deliverable folders");
             vm.openFinderPath(deliverable_path);
           });
+
+        console.log(window.Echo);
       }
     }
   }

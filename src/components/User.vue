@@ -1,10 +1,10 @@
 <template>
   <div class="ui fluid card">
     <div class="content">
-      <img
+      <!-- <img
         class="right floated mini ui image"
         src="/images/avatar/large/elliot.jpg"
-      />
+      /> -->
       <div class="header">
         {{ $parent.user.name }}
       </div>
