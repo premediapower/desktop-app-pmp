@@ -1,6 +1,7 @@
 'use strict'
 import path from 'path'
 
+require('v8-compile-cache');
 
 const {
 	autoUpdater

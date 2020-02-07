@@ -22,6 +22,7 @@
     "laravel-echo": "^1.6.1",
     "node-sass": "^4.13.1",
     "pusher-js": "^5.0.3",
+    "v8-compile-cache": "^2.1.0",
     "vue": "^2.6.10"
   },
   "devDependencies": {
