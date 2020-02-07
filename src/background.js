@@ -1,7 +1,7 @@
-'use strict'
-import path from 'path'
+"use strict";
+import path from "path";
 
-require('v8-compile-cache');
+require("v8-compile-cache");
 
 const {
 	autoUpdater
@@ -11,35 +11,34 @@ import {
 	app,
 	protocol,
 	BrowserWindow,
-	globalShortcut,
-} from 'electron'
+	globalShortcut
+} from "electron";
 import {
 	createProtocol,
 	installVueDevtools
-} from 'vue-cli-plugin-electron-builder/lib'
+} from "vue-cli-plugin-electron-builder/lib";
 
-
-
-const isDevelopment = process.env.NODE_ENV !== 'production'
+const isDevelopment = process.env.NODE_ENV !== "production";
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win
+let win;
+
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{
-	scheme: 'app',
+	scheme: "app",
 	privileges: {
 		secure: true,
 		standard: true
 	}
-}])
+}]);
 
 function createWindow() {
 	// Create the browser window.
 	win = new BrowserWindow({
 		show: false,
-		title: 'Premediapower desktop app',
+		title: "Premediapower desktop app",
 		width: 600,
 		height: 600,
 		useContentSize: true,
@@ -47,77 +46,72 @@ function createWindow() {
 		frame: false,
 		webgl: false,
 		// alwaysOnTop: true,
-		titleBarStyle: 'hidden',
+		titleBarStyle: "hidden",
 		transparent: true,
 		darkTheme: true,
 		autoHideMenuBar: false,
-		icon: path.join(__static, 'icon.png'),
+		icon: path.join(__static, "icon.png"),
 		webPreferences: {
 			nodeIntegration: true
 		}
-	})
+	});
 
 	win.maximizable = false;
 	win.fullScreenable = false;
 
-
-
 	if (process.env.WEBPACK_DEV_SERVER_URL) {
 		// Load the url of the dev server if in development mode
-		win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-		if (!process.env.IS_TEST) win.webContents.openDevTools()
+		win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
+		if (!process.env.IS_TEST) win.webContents.openDevTools();
 	} else {
-		createProtocol('app')
+		createProtocol("app");
 		// Load the index.html when not in development
-		win.loadURL('app://./index.html')
-		autoUpdater.checkForUpdatesAndNotify()
+		win.loadURL("app://./index.html");
+		autoUpdater.checkForUpdatesAndNotify();
 	}
 
-	win.on('will-quit', () => {
+	win.on("will-quit", () => {
 		// Unregister all shortcuts.
-		globalShortcut.unregisterAll()
-	})
+		globalShortcut.unregisterAll();
+	});
 
-	win.on('closed', () => {
-		win = null
-	})
+	win.on("closed", () => {
+		win = null;
+	});
 
-	win.on('ready-to-show', () => {
-		win.show()
-	})
-
+	win.on("ready-to-show", () => {
+		win.show();
+	});
 }
 
 // Quit when all windows are closed.
-app.on('window-all-closed', () => {
+app.on("window-all-closed", () => {
 	// On macOS it is common for applications and their menu bar
 	// to stay active until the user quits explicitly with Cmd + Q
-	if (process.platform !== 'darwin') {
-		app.quit()
+	if (process.platform !== "darwin") {
+		app.quit();
 	}
-})
+});
 
-app.on('activate', () => {
+app.on("activate", () => {
 	// On macOS it's common to re-create a window in the app when the
 	// dock icon is clicked and there are no other windows open.
 	if (win === null) {
-		createWindow()
+		createWindow();
 	}
-})
+});
 
-
-app.on('ready', () => {
+app.on("ready", () => {
 	// Register a 'CommandOrControl+X' shortcut listener.
-	const ret = globalShortcut.register('CommandOrControl+P', () => {
+	const ret = globalShortcut.register("CommandOrControl+P", () => {
 		win.show();
-	})
-})
-
+	});
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', async () => {
+app.on("ready", async () => {
 	if (isDevelopment && !process.env.IS_TEST) {
 		// Install Vue Devtools
 		// Devtools extensions are broken in Electron 6.0.0 and greater
@@ -126,27 +120,26 @@ app.on('ready', async () => {
 		// If you are not using Windows 10 dark mode, you may uncomment these lines
 		// In addition, if the linked issue is closed, you can upgrade electron and uncomment these lines
 		try {
-			await installVueDevtools()
+			await installVueDevtools();
 		} catch (e) {
-			console.error('Vue Devtools failed to install:', e.toString())
+			console.error("Vue Devtools failed to install:", e.toString());
 		}
 	}
 
-
-	createWindow()
-})
+	createWindow();
+});
 
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
-	if (process.platform === 'win32') {
-		process.on('message', data => {
-			if (data === 'graceful-exit') {
-				app.quit()
+	if (process.platform === "win32") {
+		process.on("message", data => {
+			if (data === "graceful-exit") {
+				app.quit();
 			}
-		})
+		});
 	} else {
-		process.on('SIGTERM', () => {
-			app.quit()
-		})
+		process.on("SIGTERM", () => {
+			app.quit();
+		});
 	}
 }

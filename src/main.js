@@ -1,16 +1,20 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from "vue";
+import App from "./App.vue";
 
-window.axios = require('axios').default;
-window._ = require('lodash');
+window.axios = require("axios").default;
+/* global axios */
+
+window._ = require("lodash");
+/* global _ */
+
 const appVersion = require("../package.json").version;
 
-axios.defaults.baseURL = 'https://dev.premediapower.com';
-axios.defaults.headers.common['Content-Type'] = 'application/json';
-axios.defaults.headers.common['Accept'] = 'application/json';
+
+axios.defaults.baseURL = "https://dev.premediapower.com";
+axios.defaults.headers.common["Content-Type"] = "application/json";
+axios.defaults.headers.common["Accept"] = "application/json";
 // https: //github.com/laravel/airlock
 axios.defaults.withCredentials = true;
-
 
 axios.interceptors.request.use(
 	function (config) {
@@ -25,12 +29,10 @@ axios.interceptors.request.use(
 	}
 );
 
+Vue.config.productionTip = false;
+Vue.config.preserveWhitespace = false;
 
-Vue.config.productionTip = false
-Vue.config.preserveWhitespace = false
-
-
-Object.defineProperty(Vue.prototype, '$_', {
+Object.defineProperty(Vue.prototype, "$_", {
 	value: _
 });
 
@@ -38,22 +40,30 @@ var app = {
 	version: appVersion,
 	debug: process.env.NODE_ENV !== "production",
 	connected_to_internet: true
-}
+};
 
-const vueInstance = new Vue({
+new Vue({
 	data: app,
 	mounted() {
 		const vm = this;
-		console.log('Vue Instance mounted');
+		console.log("Vue Instance mounted");
 
-		window.addEventListener('online', function () {
-			vm.connected_to_internet = true;
-		}, true);
-		window.addEventListener('offline', function () {
-			vm.connected_to_internet = false;
-		}, true);
+		window.addEventListener(
+			"online",
+			function () {
+				vm.connected_to_internet = true;
+			},
+			true
+		);
+		window.addEventListener(
+			"offline",
+			function () {
+				vm.connected_to_internet = false;
+			},
+			true
+		);
 	},
 	render: function (h) {
-		return h(App)
-	},
-}).$mount('#app');
+		return h(App);
+	}
+}).$mount("#app");
