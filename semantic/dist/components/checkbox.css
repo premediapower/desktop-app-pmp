@@ -220,6 +220,7 @@
   cursor: default !important;
   opacity: 0.5;
   color: #000000;
+  pointer-events: none;
 }
 
 /*--------------
@@ -358,7 +359,6 @@
 /* Handle */
 .ui.slider.checkbox label:after {
   background: #FFFFFF -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(0, 0, 0, 0.05)));
-  background: #FFFFFF -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.05));
   background: #FFFFFF linear-gradient(transparent, rgba(0, 0, 0, 0.05));
   position: absolute;
   content: '' !important;
@@ -456,7 +456,6 @@
 /* Handle */
 .ui.toggle.checkbox label:after {
   background: #FFFFFF -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(0, 0, 0, 0.05)));
-  background: #FFFFFF -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.05));
   background: #FFFFFF linear-gradient(transparent, rgba(0, 0, 0, 0.05));
   position: absolute;
   content: '' !important;

@@ -84,7 +84,6 @@
   height: 100%;
   z-index: 3;
   content: '';
-  background: -webkit-radial-gradient(transparent 45%, rgba(0, 0, 0, 0.3));
   background: radial-gradient(transparent 45%, rgba(0, 0, 0, 0.3));
   opacity: 0.5;
   -webkit-transition: opacity 0.5s ease;
@@ -115,7 +114,6 @@
 ---------------*/
 
 .ui.embed .icon:hover:after {
-  background: -webkit-radial-gradient(transparent 45%, rgba(0, 0, 0, 0.3));
   background: radial-gradient(transparent 45%, rgba(0, 0, 0, 0.3));
   opacity: 1;
 }

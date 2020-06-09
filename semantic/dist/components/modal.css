@@ -45,6 +45,9 @@
   border-bottom-left-radius: 0.28571429rem;
   border-bottom-right-radius: 0.28571429rem;
 }
+.ui.modal > .ui.dimmer {
+  border-radius: inherit;
+}
 
 
 /*******************************
@@ -178,7 +181,7 @@
   border-top: 1px solid rgba(34, 36, 38, 0.15);
   text-align: right;
 }
-.ui.modal .actions > .button {
+.ui.modal .actions > .button:not(.fluid) {
   margin-left: 0.75em;
 }
 .ui.basic.modal > .actions {
@@ -261,7 +264,7 @@
         -ms-flex-direction: column;
             flex-direction: column;
   }
-  .ui.modal .content > .image {
+  .ui.modal > .content > .image {
     display: block;
     max-width: 100%;
     margin: 0 auto !important;
@@ -273,7 +276,7 @@
     text-align: center;
   }
   /*rtl:ignore*/
-  .ui.modal .content > .description {
+  .ui.modal > .content > .description {
     display: block;
     width: 100% !important;
     margin: 0 !important;
@@ -321,6 +324,7 @@
 }
 .ui.basic.modal > .header {
   color: #FFFFFF;
+  border-bottom: none;
 }
 .ui.basic.modal > .close {
   top: 1rem;
