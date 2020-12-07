@@ -4,7 +4,7 @@
       <div
         v-for="(item, index) in disks"
         v-bind:key="index"
-        style="margin-top: 10px;"
+        style="margin-top: 10px"
       >
         <a
           class="ui fluid labeled icon button"
@@ -12,7 +12,7 @@
           v-bind:class="{
             basic: !item.mounted,
             red: !item.mounted,
-            green: item.mounted
+            green: item.mounted,
           }"
           v-on:click="openDisk(item)"
         >
@@ -31,30 +31,33 @@
 const { exec } = require("child_process");
 
 export default {
-  data: function() {
+  data: function () {
     return {
       disks: [
         {
           name: "ZDSGN01",
+          folder: "ZDSGN01",
           mounted: false,
-          url: "afp://10.33.128.21"
+          url: "afp://10.33.128.21",
         },
-        {
-          name: "ZDSGN02",
-          mounted: false,
-          url: "afp://10.33.128.22"
-        },
+        // {
+        //   name: "ZDSGN02",
+        //   mounted: false,
+        //   url: "afp://10.33.128.22"
+        // },
         {
           name: "ZDSGN03",
+          folder: "ZDSGN03",
           mounted: false,
-          url: "afp://10.33.128.23"
+          url: "afp://10.33.128.23",
         },
         {
           name: "pmp_deliverables",
+          folder: "Data",
           mounted: false,
-          url: "afp://146.185.139.142"
-        }
-      ]
+          url: "afp://172.31.1.70",
+        },
+      ],
     };
   },
   mounted() {
@@ -62,7 +65,7 @@ export default {
 
     window.addEventListener(
       "keyup",
-      function(event) {
+      function (event) {
         if (event.altKey && event.which == 49) {
           console.log("Open disk 1");
           vm.openDisk(vm.disks[0]);
@@ -86,7 +89,7 @@ export default {
     }, 5000);
   },
   methods: {
-    openDisk: function(disk) {
+    openDisk: function (disk) {
       const vm = this;
 
       if (disk.mounted) {
@@ -95,12 +98,12 @@ export default {
         window.location = disk.url;
       }
     },
-    checkDisk: function(disk) {
+    checkDisk: function (disk) {
       var command = exec(
-        "df | awk '{print $9}' | grep -Ex \"/Volumes/" + disk.name + '"'
+        "df | awk '{print $9}' | grep -Ex \"/Volumes/" + disk.folder + '"'
       );
 
-      command.stdout.on("data", function(data) {
+      command.stdout.on("data", function (data) {
         if (data) {
           disk.mounted = true;
         }
@@ -108,13 +111,13 @@ export default {
 
       return disk.mounted;
     },
-    checkIfDisksMounted: function() {
+    checkIfDisksMounted: function () {
       const vm = this;
 
-      this.disks.filter(function(disk) {
+      this.disks.filter(function (disk) {
         return (disk.mounted = vm.checkDisk(disk));
       });
-    }
-  }
+    },
+  },
 };
 </script>
