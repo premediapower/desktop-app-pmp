@@ -16,7 +16,7 @@
 	},
 	"main": "background.js",
 	"dependencies": {
-		"axios": "^0.19.2",
+		"axios": "^0.21.1",
 		"devtron": "^1.4.0",
 		"electron-updater": "^4.2.0",
 		"fomantic-ui": "^2.8.3",
